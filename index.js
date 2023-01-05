@@ -7,6 +7,7 @@ import userRoutes from './routes/users.js'
 import artistRoutes from './routes/artists.js'
 import albumRoutes from './routes/albums.js'
 import songRoutes from './routes/songs.js'
+import { register } from './controllers/auth.js'
 
 dotenv.config()
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 /* routes */
+app.post('/auth/register', register)
 app.use('/auth', authRoutes)
 app.use('/users', userRoutes)
 app.use('/artists', artistRoutes)
@@ -24,7 +26,7 @@ app.use('/albums/:albumId/songs/', songRoutes)
 /* Connect to Database */
 const PORT = process.env.PORT || 6001
 mongoose.connect(process.env.MONGO_URL, {
-    dbName: 'class_scheduling'
+    dbName: 'music'
 })
 .then(() => app.listen(PORT, () => console.log(`Server listening on ${PORT}`)))
 .catch((error) => console.log('${error} did not connect'))
